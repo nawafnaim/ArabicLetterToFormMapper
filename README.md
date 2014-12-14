@@ -5,7 +5,8 @@ A simple JS script for looking up positional forms of Arabic letters.
 
 ##Usage
 
-To get unicode of the positional form of an Arabic letter:
+To get the positional form unicode of an Arabic letter:
+
 ```js
 lookupPositionalForm(curCharHex, prevCharHex, nextCharHex);
 ```
