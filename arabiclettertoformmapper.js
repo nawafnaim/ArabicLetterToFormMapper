@@ -1,6 +1,6 @@
 /*
- * textillate.js
- * http://jschr.github.com/textillate
+ * arabiclettertoformmapper.js
+ * https://github.com/nawafnaim/ArabicLetterToFormMapper
  * MIT licensed
  *
  * Copyright (C) 2014 Nawaf Alsallami
