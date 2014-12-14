@@ -6,8 +6,11 @@
  * Copyright (C) 2014 Nawaf Alsallami
  */
 
-var arabicLetterToFormMapper = {}; //[initial, medial, final, isolated] 1574
+var arabicLetterToFormMapper = {}; //[initial, medial, final, isolated]
+arabicLetterToFormMapper["1569"] = [0xFE80, 0xFE80, 0xFE80, 0xFE80]; // HAMZA
+arabicLetterToFormMapper["1570"] = [0xFE81, 0xFE82, 0xFE82, 0xFE81]; // ALEF WITH MADDA ABOVE
 arabicLetterToFormMapper["1571"] = [0xFE83, 0xFE84, 0xFE84, 0xFE83]; // ALEF WITH HAMZA ABOVE
+arabicLetterToFormMapper["1572"] = [0xFE85, 0xFE86, 0xFE86, 0xFE85]; // WAW WITH HAMZA ABOVE
 arabicLetterToFormMapper["1573"] = [0xFE87, 0xFE88, 0xFE88, 0xFE87]; // ALEF WITH HAMZA BELOW
 arabicLetterToFormMapper["1574"] = [0xFE8B, 0xFE8C, 0xFE8A, 0xFE89]; // YEH WITH HAMZA ABOVE
 arabicLetterToFormMapper["1575"] = [0xFE8D, 0xFE8E, 0xFE8E, 0xFE8D]; // ALEF
@@ -46,22 +49,21 @@ arabicLetterToFormMapper["1610"] = [0xFEF3, 0xFEF4, 0xFEF2, 0xFEF1]; // YEH
 letter a unicode for an arabic letter
  */
 function lookupPositionalForm(curCharDeci, prevCharDeci, nextCharDeci) {
-    console.log("،".charCodeAt(0));
     var wordBoundary = [" ", 9, 10, 13, 32, 40, 41, 46, 58, 1548];
     // letters with corner cases
-    // previous letter is ALEF WITH HAMZA ABOVE    ALEF WITH HAMZA BELOW    ALEF                     DAL
-    if (prevCharDeci == "1571" || prevCharDeci == "1573" || prevCharDeci == "1575" || prevCharDeci == "1583"
-        //                  THAL                      REH                       ZAIN                       WAW
-        || prevCharDeci == "1584" || prevCharDeci == "1585" || prevCharDeci == "1586" || prevCharDeci == "1608") {
+    var lettersWithCornerCases = [1570, 1571, 1572, 1573, 1575, 1583, 1584, 1585, 1586, 1608]; // ALEF WITH MADDA, WITH
+    // HAMZA ABOVE, WAW WITH HAMZA ABOVE, ALEF WITH HAMZA BELOW, ALEF, DAL, THAL, REH, ZAIN, WAW
+    // previous letter is one of the lettersWithCornerCases
+    if ($.inArray(prevCharDeci, lettersWithCornerCases) != -1) {
+        // isolated
         if( !nextCharDeci || $.inArray(nextCharDeci, wordBoundary) != -1) {
             return arabicLetterToFormMapper[curCharDeci][3];
         }
-        // medial
+        // initial
         else {
             return arabicLetterToFormMapper[curCharDeci][0];
         }
     }
-
     // initial
     if( !prevCharDeci || $.inArray(prevCharDeci, wordBoundary) != -1) {
         return arabicLetterToFormMapper[curCharDeci][0];
